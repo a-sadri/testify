@@ -13,6 +13,9 @@ export class QuestionsService {
   }
 
   findOne(id: number) {
+    // if (!question) {
+    //   throw new HttpException(`Qestion ${id} not found`, HttpStatus.NOT_FOUND);
+    // }
     return `This action returns a #${id} question`;
   }
 
