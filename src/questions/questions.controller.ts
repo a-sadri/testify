@@ -24,13 +24,13 @@ export class QuestionsController {
   @Get()
   findAll(@Query() paginationQuery) {
     const { limit, offset } = paginationQuery;
-    return `This action returns all questions. Limit: ${limit}, offset: ${offset}`;
+    return this.questionsService.findAll();
     // return this.questionsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questionsService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.questionsService.findOne(id);
   }
 
   @Patch(':id')
