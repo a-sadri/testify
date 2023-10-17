@@ -10,5 +10,5 @@ export class QuestionType {
   name: string;
 
   @OneToMany(() => Question, (question) => question.questionType)
-  questions: Question[];
+  questions: string[];
 }

@@ -4,12 +4,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from './entities/question.entity';
+import { QuestionType } from './entities/question-type.entity';
 
 @Injectable()
 export class QuestionsService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepository: Repository<Question>,
+
+    @InjectRepository(QuestionType)
+    private readonly questionTypeRepository: Repository<QuestionType>,
   ) {}
 
   create(createQuestionDto: CreateQuestionDto) {
@@ -17,12 +21,17 @@ export class QuestionsService {
     return this.questionRepository.save(question);
   }
 
-  async findAll() {
-    return await this.questionRepository.find();
+  findAll() {
+    return this.questionRepository.find({
+      relations: ['questionType', 'answers'],
+    });
   }
 
   async findOne(id: number) {
-    const question = await this.questionRepository.findOneBy({ id });
+    const question = await this.questionRepository.findOne({
+      where: { id },
+      relations: ['questionType', 'answers'],
+    });
     if (!question) {
       throw new NotFoundException(`Question ${id} not found`);
     }
