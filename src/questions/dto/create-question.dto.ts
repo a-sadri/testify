@@ -4,9 +4,9 @@ export class CreateQuestionDto {
   @IsString()
   readonly text: string;
 
-  @IsArray()
-  readonly answers: string[];
+  @IsString()
+  readonly questionType: string;
 
-  @IsNumber()
-  readonly correctAnswer: number;
+  @IsString({ each: true })
+  readonly answers: string[];
 }

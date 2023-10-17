@@ -1,5 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { QuestionType } from './question-type.entity';
+import { Answer } from 'src/answers/entities/answer.entity';
 
 @Entity()
 export class Question {
@@ -9,9 +16,11 @@ export class Question {
   @Column()
   text: string;
 
-  @Column('json', { nullable: true })
-  answers: string[];
+  @ManyToOne(() => QuestionType, (questionType) => questionType.questions, {
+    cascade: true,
+  })
+  questionType: string;
 
-  @ManyToOne(() => QuestionType, (questionType) => questionType.questions)
-  questionType: QuestionType;
+  @OneToMany(() => Answer, (answers) => answers.question)
+  answers: string[];
 }
